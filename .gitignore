@@ -1,0 +1,46 @@
+# Only publish the web site and essentials
+# Start by ignoring everything at the repo root
+/*
+
+# Keep these files/folders tracked
+!.gitignore
+!README.md
+!LICENSE
+
+# Keep the web app
+!/web/
+
+# Inside web/: ignore dynamic/runtime artifacts
+# Keep detections.csv tracked for deployment; uncomment to ignore it
+#/web/detections.csv
+/web/*.log
+/web/.cache/
+/web/node_modules/
+/web/vendor/
+
+# Python/venv and build artifacts (kept ignored even if under web/ is whitelisted above)
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.venv*/
+.env
+.env.*
+
+# Data, logs and notebooks (backend/pipeline not part of the site)
+/data/
+logs/
+*.log
+.ipynb_checkpoints/
+*.ipynb
+
+# Editors/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Caches and temp
+.cache/
+tmp/
+temp/
