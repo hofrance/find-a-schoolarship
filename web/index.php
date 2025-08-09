@@ -17,6 +17,8 @@ if (file_exists($csvPath)) {
         fclose($h);
     }
 }
+// Generate CSP nonce for inline scripts
+$nonce = base64_encode(random_bytes(16));
 // Build filter lists
 $countries = [];
 $levels = [];
@@ -78,20 +80,27 @@ if (isset($_GET['download']) && $_GET['download'] === 'csv') {
 }
 
 // Security headers
-header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdn.datatables.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' https://cdn.jsdelivr.net https://cdn.datatables.net https://fonts.googleapis.com https://cdnjs.cloudflare.com 'unsafe-inline'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; connect-src 'self'; frame-ancestors 'none'");
+$scriptSrc = "'self' https://cdn.jsdelivr.net https://cdn.datatables.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com 'nonce-{$nonce}'";
+$styleSrc  = "'self' https://cdn.jsdelivr.net https://cdn.datatables.net https://fonts.googleapis.com https://cdnjs.cloudflare.com 'unsafe-inline'";
+$csp = "default-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; script-src $scriptSrc; style-src $styleSrc; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; connect-src 'self'";
+header("Content-Security-Policy: $csp");
 header('Referrer-Policy: strict-origin-when-cross-origin');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
+header('Cross-Origin-Opener-Policy: same-origin');
+header('Cross-Origin-Resource-Policy: same-origin');
+header('Strict-Transport-Security: max-age=63072000; includeSubDomains; preload');
 
 // Language selection
 $lang = (isset($_GET['lang']) && in_array($_GET['lang'], ['fr','en'])) ? $_GET['lang'] : 'fr';
 $T = [
   'fr' => [
-    'app_title' => 'Bourses Monitor',
+    'app_title' => 'Biscuit Délicieux',
     'updated' => 'Dernière mise à jour',
     'tab_list' => 'Bourses',
     'tab_about' => 'À propos',
+    'tab_orientation' => 'Orientation',
     'f_country' => 'Pays',
     'f_level' => 'Niveau',
     'f_lang' => 'Langue',
@@ -153,12 +162,24 @@ $T = [
     'clear_all' => 'Tout effacer',
     'back_to_top' => 'Haut de page',
     'jump_to_filters' => 'Aller aux filtres',
+    // Orientation content
+    'orientation_h2' => "Orientation & Conseils",
+    'orientation_p1' => "Trouver une bourse, c’est une méthode: cible, calendrier, dossier clair.",
+    'orientation_steps' => [
+      'Définir votre profil (pays, niveau, domaine, langues).',
+      'Suivre les échéances et préparer les pièces à l’avance (CV, lettres, attestations).',
+      'Personnaliser chaque candidature et vérifier l’éligibilité.',
+      'Créer des alertes et partager avec votre réseau.',
+    ],
+    'orientation_links' => 'Ressources utiles',
+    'orientation_cta' => 'Besoin d’orientation ? Me contacter',
   ],
   'en' => [
-    'app_title' => 'Scholarships Monitor',
+    'app_title' => 'Delicious Biscuit',
     'updated' => 'Last updated',
     'tab_list' => 'Scholarships',
     'tab_about' => 'About',
+    'tab_orientation' => 'Guidance',
     'f_country' => 'Country',
     'f_level' => 'Level',
     'f_lang' => 'Language',
@@ -220,6 +241,17 @@ $T = [
     'clear_all' => 'Clear all',
     'back_to_top' => 'Back to top',
     'jump_to_filters' => 'Jump to filters',
+    // Orientation content
+    'orientation_h2' => 'Guidance & Tips',
+    'orientation_p1' => 'Finding scholarships is a method: target, timeline, crisp application.',
+    'orientation_steps' => [
+      'Define your profile (country, level, field, languages).',
+      'Track deadlines and prepare documents early (resume, letters, proofs).',
+      'Tailor each application and verify eligibility.',
+      'Set alerts and share with your network.',
+    ],
+    'orientation_links' => 'Useful resources',
+    'orientation_cta' => 'Need guidance? Contact me',
   ],
 ];
 $L = $T[$lang];
@@ -261,13 +293,14 @@ $apiUrl = $currentPath . '?api=1';
     <nav class="navbar" role="navigation" aria-label="Primary">
       <div class="nav-container d-flex justify-between align-center" style="display:flex;justify-content:space-between;align-items:center;padding:0 1rem;">
         <div class="nav-brand">
-          <i class="fas fa-rocket"></i>
-          <span><?php echo htmlspecialchars($L['app_title'] ?? 'Scholarships Monitor'); ?></span>
+          <i class="fas fa-cookie-bite"></i>
+          <span><?php echo htmlspecialchars($L['app_title'] ?? 'Delicious Biscuit'); ?></span>
         </div>
         <div class="nav-menu">
           <button id="btn-theme" class="btn btn-outline" title="Theme"><i class="fas fa-circle-half-stroke"></i><span class="hidden sm:inline">Theme</span></button>
           <a class="btn btn-outline" href="<?php echo htmlspecialchars($langSwitchUrl); ?>"><?php echo htmlspecialchars($L['lang_switch'] ?? 'Français'); ?></a>
           <button id="tab-list" class="btn nav-link" role="tab" :aria-selected="(tab==='list').toString()" :tabindex="tab==='list'? '0':'-1'" aria-controls="panel-list" :class="{ 'active': tab==='list' }" @click="tab='list'"><i class="fas fa-table"></i> <?php echo htmlspecialchars($L['tab_list']); ?></button>
+          <button id="tab-orient" class="btn nav-link" role="tab" :aria-selected="(tab==='orientation').toString()" :tabindex="tab==='orientation'? '0':'-1'" aria-controls="panel-orientation" :class="{ 'active': tab==='orientation' }" @click="tab='orientation'"><i class="fas fa-compass"></i> <?php echo htmlspecialchars($L['tab_orientation']); ?></button>
           <button id="tab-about" class="btn nav-link" role="tab" :aria-selected="(tab==='about').toString()" :tabindex="tab==='about'? '0':'-1'" aria-controls="panel-about" :class="{ 'active': tab==='about' }" @click="tab='about'"><i class="fas fa-circle-info"></i> <?php echo htmlspecialchars($L['tab_about']); ?></button>
         </div>
       </div>
@@ -461,6 +494,30 @@ $apiUrl = $currentPath . '?api=1';
         </div>
       </section>
 
+      <section x-show="tab==='orientation'" x-cloak role="tabpanel" id="panel-orientation" aria-labelledby="tab-orient" x-transition.opacity.scale>
+        <div class="card">
+          <h2 class="text-xl font-semibold mb-2"><?php echo htmlspecialchars($L['orientation_h2']); ?></h2>
+          <p class="text-slate-300 mb-2"><?php echo htmlspecialchars($L['orientation_p1']); ?></p>
+          <ol class="text-slate-300" style="padding-left:1.25rem; list-style: decimal;">
+            <?php foreach (($L['orientation_steps'] ?? []) as $step): ?>
+              <li class="mb-1"><?php echo htmlspecialchars($step); ?></li>
+            <?php endforeach; ?>
+          </ol>
+          <div class="mt-3 d-flex" style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <a class="btn btn-outline" href="#filters"><i class="fas fa-filter"></i> <?php echo htmlspecialchars($L['jump_to_filters']); ?></a>
+            <a class="btn btn-primary" href="mailto:contact@richard-hofrance.com"><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($L['orientation_cta']); ?></a>
+          </div>
+          <div class="mt-4">
+            <div class="font-semibold mb-1"><?php echo htmlspecialchars($L['orientation_links']); ?></div>
+            <ul class="text-slate-300" style="padding-left:1.25rem; list-style: disc;">
+              <li><a class="text-cyan-300 underline" href="https://europa.eu/youth" target="_blank" rel="noopener noreferrer">EU Youth</a></li>
+              <li><a class="text-cyan-300 underline" href="https://scholarshipportal.com" target="_blank" rel="noopener noreferrer">ScholarshipPortal</a></li>
+              <li><a class="text-cyan-300 underline" href="https://www.unesco.org/en/education" target="_blank" rel="noopener noreferrer">UNESCO Education</a></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section x-show="tab==='about'" x-cloak role="tabpanel" id="panel-about" aria-labelledby="tab-about" x-transition.opacity.scale>
         <div class="card">
           <div class="about-hero" style="padding:1rem;border-radius:12px;background:linear-gradient(135deg, rgba(34,211,238,.15), rgba(99,102,241,.12)); border:1px dashed var(--glass-border); margin-bottom:1rem;">
@@ -530,7 +587,7 @@ $apiUrl = $currentPath . '?api=1';
 
   <button id="toTop" class="fab" aria-label="<?php echo htmlspecialchars($L['back_to_top']); ?>" title="<?php echo htmlspecialchars($L['back_to_top']); ?>"><i class="fas fa-arrow-up"></i></button>
   <script src="futuristic-ui.js"></script>
-  <script>
+  <script nonce="<?php echo htmlspecialchars($nonce); ?>">
     // Enhance selects BEFORE DataTable init
     const chCountry = new Choices('#filter-country', { removeItemButton: true, shouldSort: true });
     const chLevel = new Choices('#filter-level', { removeItemButton: true, shouldSort: true });
