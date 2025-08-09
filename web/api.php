@@ -12,6 +12,14 @@ $draw = isset($_POST['draw']) ? (int)$_POST['draw'] : 0;
 $start = isset($_POST['start']) ? (int)$_POST['start'] : 0;
 $length = isset($_POST['length']) ? (int)$_POST['length'] : 25;
 
+// Capture DataTables global search
+$search = '';
+if (isset($_POST['search']) && is_array($_POST['search']) && isset($_POST['search']['value'])) {
+    $search = trim((string)$_POST['search']['value']);
+} elseif (isset($_POST['search[value]'])) {
+    $search = trim((string)$_POST['search[value]']);
+}
+
 // Order handling (support first 2 order instructions)
 $order = [];
 if (isset($_POST['order']) && is_array($_POST['order'])) {
@@ -57,7 +65,12 @@ $columns = [
     5 => 'score',
     6 => 'deadline',
     7 => 'amount',
-    8 => 'item_url',
+    8 => 'category',
+    9 => 'provider',
+    10 => 'funding_type',
+    11 => 'region',
+    12 => 'fields',
+    13 => 'item_url',
 ];
 
 $headers = [];
@@ -74,6 +87,70 @@ if (file_exists($csvPath)) {
     }
 }
 
+// --- New: Clean, normalize and de-duplicate rows to reduce noise ---
+function normalize_date($s) {
+    $s = trim((string)$s);
+    if ($s === '') return '';
+    // accept YYYY-MM-DD or ISO strings
+    if (preg_match('/^(\d{4})-(\d{2})-(\d{2})/', $s, $m)) {
+        return sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]);
+    }
+    return '';
+}
+function normalize_langs($s) {
+    $parts = array_filter(array_map(fn($x)=> strtolower(trim($x)), explode('|', (string)$s)));
+    $parts = array_values(array_unique($parts));
+    return implode('|', $parts);
+}
+function trim_all($row) {
+    foreach ($row as $k => $v) {
+        if (is_string($v)) { $row[$k] = trim($v); }
+    }
+    $row['language'] = normalize_langs($row['language'] ?? '');
+    $row['deadline'] = normalize_date($row['deadline'] ?? '');
+    return $row;
+}
+$stopTitle = [
+    'skip to main content','skip to content','aller au contenu','aller au contenu principal','accessibility','accessibilité',
+    'plan du site','site map','terms and conditions','terms','privacy','confidentialité','conditions d’utilisation','conditions d\'utilisation',
+    'contact','about','à propos','faq','faqs','glossary','search','rechercher','français','italian','hungarian','czech','eesti'
+];
+$stopUrlContains = ['javascript:', 'tel:', 'cdn-cgi/l/email-protection', 'javascript%3a', 'javascript%20void'];
+$clean = [];
+$seenUrl = [];
+$seenTitleBySource = [];
+foreach ($rows as $r) {
+    $r = trim_all($r);
+    $title = strtolower($r['title'] ?? '');
+    $url   = $r['item_url'] ?? '';
+    $urlLc = strtolower($url);
+
+    if ($url === '' || $title === '') continue;
+    $bad = false;
+    foreach ($stopUrlContains as $frag) { if (strpos($urlLc, $frag) !== false) { $bad = true; break; } }
+    if ($bad) continue;
+    foreach ($stopTitle as $t) { if (strpos($title, $t) !== false) { $bad = true; break; } }
+    if ($bad) continue;
+
+    // basic score filter: drop very low-quality items unless clearly scholarship-related
+    $score = (float)($r['score'] ?? 0);
+    $titleHasScholar = (strpos($title, 'scholar') !== false) || (strpos($title, 'bourse') !== false) || (strpos($title, 'stipend') !== false) || (strpos($title, 'fellowship') !== false) || (strpos($title, 'grant') !== false);
+    if ($score < 3.5 && !$titleHasScholar) continue;
+
+    // de-dup by URL and by (source_id + title)
+    if (isset($seenUrl[$urlLc])) continue;
+    $sid = strtolower($r['source_id'] ?? '');
+    $tkey = preg_replace('/\s+/', ' ', $title);
+    if (!isset($seenTitleBySource[$sid])) $seenTitleBySource[$sid] = [];
+    if (isset($seenTitleBySource[$sid][$tkey])) continue;
+
+    $seenUrl[$urlLc] = true;
+    $seenTitleBySource[$sid][$tkey] = true;
+    $clean[] = $r;
+}
+$rows = $clean;
+// --- End cleaning ---
+
 $total = count($rows);
 
 // Helper: fetch key safely
@@ -82,7 +159,23 @@ function getv($row, $key, $default = '') {
 }
 
 // Apply filters
-$filtered = array_values(array_filter($rows, function($r) use ($countries, $levels, $langs, $dateStart, $dateEnd, $categories, $providers, $fundingTypes, $regions, $fieldsSel) {
+$filtered = array_values(array_filter($rows, function($r) use ($countries, $levels, $langs, $dateStart, $dateEnd, $categories, $providers, $fundingTypes, $regions, $fieldsSel, $search) {
+    // Global search across key fields
+    if ($search !== '') {
+        $hay = strtolower(implode(' ', [
+            (string)($r['title'] ?? ''),
+            (string)($r['provider'] ?? ''),
+            (string)($r['country'] ?? ''),
+            (string)($r['level'] ?? ''),
+            (string)($r['language'] ?? ''),
+            (string)($r['category'] ?? ''),
+            (string)($r['region'] ?? ''),
+            (string)($r['fields'] ?? ''),
+            (string)($r['amount'] ?? ''),
+        ]));
+        if (strpos($hay, strtolower($search)) === false) return false;
+    }
+
     $country = trim(getv($r, 'country'));
     if ($countries && !in_array($country, $countries, true)) return false;
 
@@ -178,13 +271,12 @@ $data = array_map(function($r) {
         'score'       => (string)($r['score'] ?? ''),
         'deadline'    => (string)($r['deadline'] ?? ''),
         'amount'      => (string)($r['amount'] ?? ''),
-        'item_url'    => (string)($r['item_url'] ?? ''),
-        // Extended (if needed on client later)
         'category'    => (string)($r['category'] ?? ''),
         'provider'    => (string)($r['provider'] ?? ''),
         'funding_type'=> (string)($r['funding_type'] ?? ''),
         'region'      => (string)($r['region'] ?? ''),
         'fields'      => (string)($r['fields'] ?? ''),
+        'item_url'    => (string)($r['item_url'] ?? ''),
     ];
 }, $pageRows);
 

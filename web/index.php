@@ -108,12 +108,12 @@ $T = [
     'th_link' => 'Lien',
     'open' => 'ouvrir',
     'about_h2' => 'À propos',
-    'about_p1' => "Je suis <span class=\"font-semibold\">Richard BANKOUEZI</span>, <span class=\"font-semibold\">Cybersecurity Architect & Digital Sentinel</span> basé à Paris. J'aide les organisations à <span class=\"text-cyan-300\">prévenir, détecter et répondre</span> aux incidents de sécurité.",
-    'about_p2' => "Compétences clés : SOC/SIEM, Réponse à incident (CERT/CSIRT), Threat Intelligence (MITRE ATT&CK), Sécurité Cloud, Conformité (RGPD).",
-    'about_p3' => "Services : audits de sécurité, tests d'intrusion, réponse à incident <span class=\"text-cyan-300\">24/7</span>, formation, conformité et évaluation des risques. <a class=\"text-cyan-300 underline\" href=\"https://richard-hofrance.com/en\" rel=\"noopener noreferrer\" target=\"_blank\">En savoir plus</a> — <a class=\"text-cyan-300 underline\" href=\"mailto:contact@richard-hofrance.com\">contact@richard-hofrance.com</a>.",
-    'about_list1' => "Audits de sécurité & tests d'intrusion",
-    'about_list2' => 'Réponse à incident (24/7), SOC/SIEM',
-    'about_list3' => 'Conformité & RGPD, formation, évaluation des risques',
+    'about_p1' => "Je suis <span class=\"font-semibold\">Richard BANKOUEZI</span>, <span class=\"font-semibold\">Architecte Cybersécurité & Digital Sentinel</span> à Paris. J’aide les équipes à <span class=\"text-cyan-300\">prévenir, détecter et répondre</span> aux menaces avec des résultats mesurables.",
+    'about_p2' => "Expertises : SOC/SIEM, Réponse à incident (CERT/CSIRT), Threat Intelligence (MITRE ATT&CK), Sécurité Cloud, Conformité (RGPD).",
+    'about_p3' => "Services : audits, pentest, réponse à incident <span class=\"text-cyan-300\">24/7</span>, formation, conformité et gestion des risques. <a class=\"text-cyan-300 underline\" href=\"https://richard-hofrance.com/en\" rel=\"noopener noreferrer\" target=\"_blank\">En savoir plus</a> — <a class=\"text-cyan-300 underline\" href=\"mailto:contact@richard-hofrance.com\">contact@richard-hofrance.com</a>.",
+    'about_list1' => 'Audit & Pentest',
+    'about_list2' => 'IR 24/7, SOC/SIEM',
+    'about_list3' => 'Conformité, RGPD, Risques & Formation',
     'lang_switch' => 'English',
     'about_follow' => 'Suivez-moi',
     'stats_offers' => 'Offres',
@@ -132,6 +132,27 @@ $T = [
     'f_region' => 'Région',
     'f_fields' => 'Domaines',
     'f_page' => 'Lignes/page',
+    // New a11y/search/pager labels
+    'search' => 'Recherche',
+    'search_placeholder' => 'Rechercher un titre, un organisme, un pays…',
+    'pager_prev' => 'Précédent',
+    'pager_next' => 'Suivant',
+    // New mission/human touch
+    'mission_title' => 'Notre mission',
+    'mission_text' => "Ce projet aide les étudiant·e·s à trouver des opportunités de bourses. Parfois, il suffit d’avoir l’information au bon moment.",
+    'mission_disclaimer' => "Projet indépendant, gratuit et sans partenariat — juste pour aider plus de monde.",
+    'badge_community' => 'Communautaire',
+    'badge_independent' => 'Indépendant',
+    // CTA labels
+    'cta_contribute' => 'Contribuer',
+    'cta_contact' => 'Me contacter',
+    'cta_github' => 'GitHub',
+    // New navigation/filters labels
+    'advanced_filters' => 'Filtres avancés',
+    'active_filters' => 'Filtres actifs',
+    'clear_all' => 'Tout effacer',
+    'back_to_top' => 'Haut de page',
+    'jump_to_filters' => 'Aller aux filtres',
   ],
   'en' => [
     'app_title' => 'Scholarships Monitor',
@@ -154,12 +175,12 @@ $T = [
     'th_link' => 'Link',
     'open' => 'open',
     'about_h2' => 'About',
-    'about_p1' => "I'm <span class=\"font-semibold\">Richard BANKOUEZI</span>, a <span class=\"font-semibold\">Cybersecurity Architect & Digital Sentinel</span> based in Paris. I help organizations <span class=\"text-cyan-300\">prevent, detect, and respond</span> to security incidents.",
-    'about_p2' => 'Core competencies: SOC/SIEM, Incident Response (CERT/CSIRT), Threat Intelligence (MITRE ATT&CK), Cloud Security, Compliance (GDPR).',
-    'about_p3' => "Services: security audits, penetration testing, <span class=\"text-cyan-300\">24/7</span> incident response, training, compliance and risk assessment. <a class=\"text-cyan-300 underline\" href=\"https://richard-hofrance.com/en\" rel=\"noopener noreferrer\" target=\"_blank\">Learn more</a> — <a class=\"text-cyan-300 underline\" href=\"mailto:contact@richard-hofrance.com\">contact@richard-hofrance.com</a>.",
-    'about_list1' => 'Security audits & penetration testing',
-    'about_list2' => 'Incident response (24/7), SOC/SIEM',
-    'about_list3' => 'Compliance & GDPR, training, risk assessment',
+    'about_p1' => "I'm <span class=\"font-semibold\">Richard BANKOUEZI</span>, a <span class=\"font-semibold\">Cybersecurity Architect & Digital Sentinel</span> in Paris. I help teams <span class=\"text-cyan-300\">prevent, detect, and respond</span> to threats with measurable outcomes.",
+    'about_p2' => 'Expertise: SOC/SIEM, Incident Response (CERT/CSIRT), Threat Intelligence (MITRE ATT&CK), Cloud Security, Compliance (GDPR).',
+    'about_p3' => "Services: audits, penetration testing, <span class=\"text-cyan-300\">24/7</span> incident response, training, compliance and risk management. <a class=\"text-cyan-300 underline\" href=\"https://richard-hofrance.com/en\" rel=\"noopener noreferrer\" target=\"_blank\">Learn more</a> — <a class=\"text-cyan-300 underline\" href=\"mailto:contact@richard-hofrance.com\">contact@richard-hofrance.com</a>.",
+    'about_list1' => 'Audit & Penetration testing',
+    'about_list2' => 'IR 24/7, SOC/SIEM',
+    'about_list3' => 'Compliance, GDPR, Risk & Training',
     'lang_switch' => 'Français',
     'about_follow' => 'Follow me',
     'stats_offers' => 'Offers',
@@ -178,6 +199,27 @@ $T = [
     'f_region' => 'Region',
     'f_fields' => 'Fields',
     'f_page' => 'Rows/page',
+    // New a11y/search/pager labels
+    'search' => 'Search',
+    'search_placeholder' => 'Search title, provider, country…',
+    'pager_prev' => 'Previous',
+    'pager_next' => 'Next',
+    // New mission/human touch
+    'mission_title' => 'Our mission',
+    'mission_text' => 'This project helps students discover scholarship opportunities. Sometimes all you need is the right information at the right time.',
+    'mission_disclaimer' => 'Independent, free, no partnerships — simply to help more people.',
+    'badge_community' => 'Community',
+    'badge_independent' => 'Independent',
+    // CTA labels
+    'cta_contribute' => 'Contribute',
+    'cta_contact' => 'Contact me',
+    'cta_github' => 'GitHub',
+    // New navigation/filters labels
+    'advanced_filters' => 'Advanced filters',
+    'active_filters' => 'Active filters',
+    'clear_all' => 'Clear all',
+    'back_to_top' => 'Back to top',
+    'jump_to_filters' => 'Jump to filters',
   ],
 ];
 $L = $T[$lang];
@@ -214,8 +256,9 @@ $apiUrl = $currentPath . '?api=1';
   </style>
 </head>
 <body class="h-full">
-  <div class="min-h-full" x-data="{ tab: 'list' }">
-    <nav class="navbar">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <div class="min-h-full" x-data="{ tab: (localStorage.getItem('ui.tab')||'list') }" x-init="$watch('tab', t => localStorage.setItem('ui.tab', t))">
+    <nav class="navbar" role="navigation" aria-label="Primary">
       <div class="nav-container d-flex justify-between align-center" style="display:flex;justify-content:space-between;align-items:center;padding:0 1rem;">
         <div class="nav-brand">
           <i class="fas fa-rocket"></i>
@@ -224,13 +267,14 @@ $apiUrl = $currentPath . '?api=1';
         <div class="nav-menu">
           <button id="btn-theme" class="btn btn-outline" title="Theme"><i class="fas fa-circle-half-stroke"></i><span class="hidden sm:inline">Theme</span></button>
           <a class="btn btn-outline" href="<?php echo htmlspecialchars($langSwitchUrl); ?>"><?php echo htmlspecialchars($L['lang_switch'] ?? 'Français'); ?></a>
-          <button class="btn nav-link" :class="{ 'active': tab==='list' }" @click="tab='list'"><i class="fas fa-table"></i> <?php echo htmlspecialchars($L['tab_list']); ?></button>
-          <button class="btn nav-link" :class="{ 'active': tab==='about' }" @click="tab='about'"><i class="fas fa-circle-info"></i> <?php echo htmlspecialchars($L['tab_about']); ?></button>
+          <button id="tab-list" class="btn nav-link" role="tab" :aria-selected="(tab==='list').toString()" :tabindex="tab==='list'? '0':'-1'" aria-controls="panel-list" :class="{ 'active': tab==='list' }" @click="tab='list'"><i class="fas fa-table"></i> <?php echo htmlspecialchars($L['tab_list']); ?></button>
+          <button id="tab-about" class="btn nav-link" role="tab" :aria-selected="(tab==='about').toString()" :tabindex="tab==='about'? '0':'-1'" aria-controls="panel-about" :class="{ 'active': tab==='about' }" @click="tab='about'"><i class="fas fa-circle-info"></i> <?php echo htmlspecialchars($L['tab_about']); ?></button>
         </div>
       </div>
     </nav>
 
-    <main class="p-6">
+    <main id="main-content" class="p-6" role="main">
+      <div id="filters-sentinel"></div>
       <header class="mb-6">
         <h1 class="section-title neon mb-2"><?php echo htmlspecialchars($L['app_title']); ?></h1>
         <p class="text-slate-400 flex flex-wrap items-center gap-2">
@@ -239,11 +283,38 @@ $apiUrl = $currentPath . '?api=1';
           <span class="badge badge-success" title="<?php echo htmlspecialchars($L['stats_countries']); ?>"><?php echo htmlspecialchars($L['stats_countries']); ?>: <strong class="ml-1"><?php echo (int)$countriesCount; ?></strong></span>
           <a class="btn btn-outline ml-2" href="<?php echo htmlspecialchars($downloadUrl); ?>"><i class="fas fa-file-csv"></i> <?php echo htmlspecialchars($L['download_csv']); ?></a>
           <button id="btn-reset" class="btn btn-primary"><i class="fas fa-rotate"></i> <?php echo htmlspecialchars($L['reset_filters']); ?></button>
+          <a class="btn btn-outline" href="#filters"><i class="fas fa-filter"></i> <?php echo htmlspecialchars($L['jump_to_filters']); ?></a>
         </p>
+        <div class="glass mt-3" role="note" aria-label="<?php echo htmlspecialchars($L['mission_title']); ?>" style="padding:.75rem 1rem; display:flex; gap:.75rem; align-items:flex-start;">
+          <i class="fas fa-heart" aria-hidden="true" style="color:#ef4444"></i>
+          <div>
+            <div class="font-semibold mb-1"><?php echo htmlspecialchars($L['mission_title']); ?></div>
+            <p class="text-slate-300 p-muted" style="margin:0;">
+              <?php echo $L['mission_text']; ?>
+            </p>
+            <div class="mt-2" style="display:flex; gap:.5rem; flex-wrap:wrap; align-items:center;">
+              <span class="badge badge-success"><?php echo htmlspecialchars($L['badge_community']); ?></span>
+              <span class="badge"><?php echo htmlspecialchars($L['badge_independent']); ?></span>
+              <small class="text-slate-400"><?php echo htmlspecialchars($L['mission_disclaimer']); ?></small>
+            </div>
+            <div class="mt-2" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+              <a class="btn btn-primary" href="mailto:contact@richard-hofrance.com" aria-label="<?php echo htmlspecialchars($L['cta_contact']); ?>"><?php echo htmlspecialchars($L['cta_contribute']); ?></a>
+              <a class="btn btn-outline" href="https://github.com/hofrance" target="_blank" rel="noopener noreferrer" aria-label="<?php echo htmlspecialchars($L['cta_github']); ?>"><?php echo htmlspecialchars($L['cta_github']); ?></a>
+            </div>
+          </div>
+        </div>
       </header>
 
-      <section x-show="tab==='list'" x-cloak>
-        <div class="card mb-4">
+      <section x-show="tab==='list'" x-cloak role="tabpanel" id="panel-list" aria-labelledby="tab-list" x-transition.opacity.scale>
+        <div class="card mb-4 filters-sticky" id="filters">
+          <div class="d-flex justify-between align-center mb-2" style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap;">
+            <button id="toggle-advanced" class="btn btn-outline" aria-expanded="false"><i class="fas fa-sliders"></i> <?php echo htmlspecialchars($L['advanced_filters']); ?></button>
+            <div class="d-flex align-center" style="display:flex;gap:.5rem;flex-wrap:wrap;">
+              <span class="text-xs" style="color:var(--text-muted)"><?php echo htmlspecialchars($L['active_filters']); ?>:</span>
+              <div id="chips" class="chips" aria-live="polite" aria-atomic="true" aria-label="<?php echo htmlspecialchars($L['active_filters']); ?>"></div>
+              <button id="clear-all" class="btn btn-outline"><i class="fas fa-broom"></i> <?php echo htmlspecialchars($L['clear_all']); ?></button>
+            </div>
+          </div>
           <div class="filters-panel" style="display:flex;gap:1rem;flex-wrap:wrap;">
             <div style="min-width:200px;">
               <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_country']); ?></label>
@@ -284,68 +355,78 @@ $apiUrl = $currentPath . '?api=1';
               </select>
             </div>
           </div>
-          <div class="filters-panel" style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <div style="min-width:200px;">
-              <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_category']); ?></label>
-              <select id="filter-category" multiple>
-                <?php foreach ($categories as $v): ?>
-                  <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
-                <?php endforeach; ?>
-              </select>
+          <div id="advanced-filters" class="collapsible hidden">
+            <div class="filters-panel" style="display:flex;gap:1rem;flex-wrap:wrap;">
+              <div style="min-width:200px;">
+                <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_category']); ?></label>
+                <select id="filter-category" multiple>
+                  <?php foreach ($categories as $v): ?>
+                    <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div style="min-width:200px;">
+                <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_provider']); ?></label>
+                <select id="filter-provider" multiple>
+                  <?php foreach ($providers as $v): ?>
+                    <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div style="min-width:200px;">
+                <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_funding_type']); ?></label>
+                <select id="filter-funding-type" multiple>
+                  <?php foreach ($fundingTypes as $v): ?>
+                    <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div style="min-width:200px;">
+                <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_region']); ?></label>
+                <select id="filter-region" multiple>
+                  <?php foreach ($regions as $v): ?>
+                    <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
+              <div style="min-width:220px;">
+                <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_fields']); ?></label>
+                <select id="filter-fields" multiple>
+                  <?php foreach ($fieldsSet as $v): ?>
+                    <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
+                  <?php endforeach; ?>
+                </select>
+              </div>
             </div>
-            <div style="min-width:200px;">
-              <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_provider']); ?></label>
-              <select id="filter-provider" multiple>
-                <?php foreach ($providers as $v): ?>
-                  <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <div style="min-width:200px;">
-              <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_funding_type']); ?></label>
-              <select id="filter-funding-type" multiple>
-                <?php foreach ($fundingTypes as $v): ?>
-                  <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <div style="min-width:200px;">
-              <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_region']); ?></label>
-              <select id="filter-region" multiple>
-                <?php foreach ($regions as $v): ?>
-                  <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
-                <?php endforeach; ?>
-              </select>
-            </div>
-            <div style="min-width:220px;">
-              <label class="text-xs mb-1"><?php echo htmlspecialchars($L['f_fields']); ?></label>
-              <select id="filter-fields" multiple>
-                <?php foreach ($fieldsSet as $v): ?>
-                  <option value="<?php echo htmlspecialchars($v); ?>"><?php echo htmlspecialchars($v); ?></option>
-                <?php endforeach; ?>
-              </select>
+          </div>
+          <div class="mt-3" role="search" aria-label="<?php echo htmlspecialchars($L['search']); ?>">
+            <label for="global-search" class="text-xs mb-1"><?php echo htmlspecialchars($L['search']); ?></label>
+            <div style="display:flex; gap:.5rem; align-items:center;">
+              <input id="global-search" type="search" class="input-futuristic" placeholder="<?php echo htmlspecialchars($L['search_placeholder']); ?>" aria-label="<?php echo htmlspecialchars($L['search']); ?>" />
+              <button id="clear-search" class="btn btn-outline" aria-label="Clear search"><i class="fas fa-xmark"></i></button>
             </div>
           </div>
         </div>
 
         <div class="table-container card">
-          <table id="tbl" class="table-futuristic display text-sm">
+          <table id="tbl" class="table-futuristic display text-sm" aria-describedby="info">
+            <caption class="sr-only">Tableau des bourses avec filtres et pagination</caption>
             <thead>
               <tr>
-                <th><?php echo htmlspecialchars($L['th_source']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_title']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_country']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_level']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_lang']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_score']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_deadline']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_amount']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_category']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_provider']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_funding_type']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_region']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_fields']); ?></th>
-                <th><?php echo htmlspecialchars($L['th_link']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_source']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_title']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_country']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_level']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_lang']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_score']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_deadline']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_amount']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_category']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_provider']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_funding_type']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_region']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_fields']); ?></th>
+                <th scope="col"><?php echo htmlspecialchars($L['th_link']); ?></th>
               </tr>
             </thead>
             <tbody>
@@ -370,27 +451,56 @@ $apiUrl = $currentPath . '?api=1';
             </tbody>
           </table>
           <div class="mt-3 d-flex justify-between align-center" style="display:flex;gap:.5rem;align-items:center;justify-content:space-between;">
-            <div id="info" class="text-xs" style="color:var(--text-secondary)"></div>
-            <div class="d-flex align-center" style="display:flex;gap:.5rem;">
-              <button class="btn btn-outline" id="prevPage">«</button>
-              <span id="pageIndicator" class="text-sm"></span>
-              <button class="btn btn-outline" id="nextPage">»</button>
-            </div>
+            <div id="info" class="text-xs" style="color:var(--text-secondary)" aria-live="polite"></div>
+            <nav id="pager" class="pager d-flex align-center" style="display:flex;gap:.25rem;align-items:center;" aria-label="Pagination">
+              <button class="btn btn-outline" id="prevPage" aria-label="<?php echo htmlspecialchars($L['pager_prev']); ?>"><?php echo htmlspecialchars($L['pager_prev']); ?></button>
+              <div id="pagerNumbers" class="d-flex align-center" style="display:flex;gap:.25rem;"></div>
+              <button class="btn btn-outline" id="nextPage" aria-label="<?php echo htmlspecialchars($L['pager_next']); ?>"><?php echo htmlspecialchars($L['pager_next']); ?></button>
+            </nav>
           </div>
         </div>
       </section>
 
-      <section x-show="tab==='about'" x-cloak>
+      <section x-show="tab==='about'" x-cloak role="tabpanel" id="panel-about" aria-labelledby="tab-about" x-transition.opacity.scale>
         <div class="card">
-          <h2 class="text-2xl font-semibold mb-3"><?php echo $L['about_h2']; ?></h2>
-          <p class="mb-3 text-slate-300"><?php echo $L['about_p1']; ?></p>
-          <p class="mb-3 text-slate-300"><?php echo $L['about_p2']; ?></p>
-          <p class="mb-3 text-slate-300"><?php echo $L['about_p3']; ?></p>
-          <ul class="list-disc pl-5 text-slate-300">
-            <li><?php echo htmlspecialchars($L['about_list1']); ?></li>
-            <li><?php echo htmlspecialchars($L['about_list2']); ?></li>
-            <li><?php echo htmlspecialchars($L['about_list3']); ?></li>
-          </ul>
+          <div class="about-hero" style="padding:1rem;border-radius:12px;background:linear-gradient(135deg, rgba(34,211,238,.15), rgba(99,102,241,.12)); border:1px dashed var(--glass-border); margin-bottom:1rem;">
+            <h2 class="text-2xl font-semibold mb-2"><?php echo $L['about_h2']; ?></h2>
+            <p class="mb-2 text-slate-300"><?php echo $L['about_p1']; ?></p>
+            <p class="mb-2 text-slate-300"><?php echo $L['about_p2']; ?></p>
+            <p class="mb-2 text-slate-300"><?php echo $L['about_p3']; ?></p>
+          </div>
+          <div class="glass" role="note" aria-label="<?php echo htmlspecialchars($L['mission_title']); ?>" style="padding:1rem; margin-bottom:1rem;">
+            <div class="font-semibold mb-1"><?php echo htmlspecialchars($L['mission_title']); ?></div>
+            <p class="text-slate-300 mb-1"><?php echo $L['mission_text']; ?></p>
+            <p class="text-slate-400 text-sm"><?php echo htmlspecialchars($L['mission_disclaimer']); ?></p>
+            <div class="mt-2" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+              <a class="btn btn-primary" href="mailto:contact@richard-hofrance.com" aria-label="<?php echo htmlspecialchars($L['cta_contact']); ?>"><?php echo htmlspecialchars($L['cta_contribute']); ?></a>
+              <a class="btn btn-outline" href="https://github.com/hofrance" target="_blank" rel="noopener noreferrer" aria-label="<?php echo htmlspecialchars($L['cta_github']); ?>"><?php echo htmlspecialchars($L['cta_github']); ?></a>
+            </div>
+          </div>
+          <div class="d-flex" style="display:flex; gap:1rem; flex-wrap:wrap;">
+            <div class="glass" style="padding:1rem; flex:1 1 220px;">
+              <i class="fas fa-shield-halved" style="color:var(--info-color);"></i>
+              <div class="mt-2">
+                <div class="font-semibold"><?php echo htmlspecialchars($L['about_list1']); ?></div>
+                <div class="text-slate-400 text-sm">SOC/SIEM · Pentest · Hardening</div>
+              </div>
+            </div>
+            <div class="glass" style="padding:1rem; flex:1 1 220px;">
+              <i class="fas fa-headset" style="color:var(--success-color);"></i>
+              <div class="mt-2">
+                <div class="font-semibold"><?php echo htmlspecialchars($L['about_list2']); ?></div>
+                <div class="text-slate-400 text-sm">CERT/CSIRT · 24/7 IR</div>
+              </div>
+            </div>
+            <div class="glass" style="padding:1rem; flex:1 1 220px;">
+              <i class="fas fa-scale-balanced" style="color:var(--warning-color);"></i>
+              <div class="mt-2">
+                <div class="font-semibold"><?php echo htmlspecialchars($L['about_list3']); ?></div>
+                <div class="text-slate-400 text-sm">GDPR · Risk · Training</div>
+              </div>
+            </div>
+          </div>
           <div class="mt-4 flex items-center gap-3">
             <span class="text-slate-400 text-sm"><?php echo htmlspecialchars($L['about_follow']); ?>:</span>
             <a class="p-2 rounded hover:bg-white/10" href="https://www.linkedin.com/in/richard-hofrance-bankouezi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -410,6 +520,15 @@ $apiUrl = $currentPath . '?api=1';
       </section>
     </main>
   </div>
+
+  <!-- Mobile bottom action bar -->
+  <nav class="mobile-actions" aria-label="Actions">
+    <a href="#filters" class="m-btn" aria-label="<?php echo htmlspecialchars($L['jump_to_filters']); ?>"><i class="fas fa-filter"></i><span><?php echo htmlspecialchars($L['jump_to_filters']); ?></span></a>
+    <button id="m-open-search" class="m-btn" aria-label="<?php echo htmlspecialchars($L['search']); ?>"><i class="fas fa-magnifying-glass"></i><span><?php echo htmlspecialchars($L['search']); ?></span></button>
+    <button id="m-top" class="m-btn" aria-label="<?php echo htmlspecialchars($L['back_to_top']); ?>"><i class="fas fa-arrow-up"></i><span><?php echo htmlspecialchars($L['back_to_top']); ?></span></button>
+  </nav>
+
+  <button id="toTop" class="fab" aria-label="<?php echo htmlspecialchars($L['back_to_top']); ?>" title="<?php echo htmlspecialchars($L['back_to_top']); ?>"><i class="fas fa-arrow-up"></i></button>
   <script src="futuristic-ui.js"></script>
   <script>
     // Enhance selects BEFORE DataTable init
@@ -451,9 +570,8 @@ $apiUrl = $currentPath . '?api=1';
       paging: true,
       lengthChange: false,
       info: true,
-      dom: 'tip',
+      dom: 't', // keep only table, custom controls elsewhere
       order: [[6, 'asc'], [5, 'desc']],
-      // For server-side, define columns to map API keys
       columns: serverSide ? [
         { data: 'source_name' },
         { data: 'title' },
@@ -472,27 +590,187 @@ $apiUrl = $currentPath . '?api=1';
       ] : undefined,
     });
 
-    // Custom pager bindings
+    // Sticky filters using IntersectionObserver
+    (function(){
+      const sentinel = document.getElementById('filters-sentinel');
+      const panel = document.getElementById('filters');
+      if (!sentinel || !panel) return;
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(en=>{
+          panel.classList.toggle('is-stuck', !en.isIntersecting);
+        });
+      }, { rootMargin: '-80px 0px 0px 0px', threshold: [0, 1] });
+      io.observe(sentinel);
+    })();
+
+    // Mobile actions shortcuts
+    (function(){
+      const openSearch = document.getElementById('m-open-search');
+      const toTop = document.getElementById('m-top');
+      const input = document.getElementById('global-search');
+      openSearch?.addEventListener('click', ()=>{ input?.focus(); input?.scrollIntoView({behavior:'smooth', block:'center'}); });
+      toTop?.addEventListener('click', ()=>{ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    })();
+
+    // Persist and handle Advanced Filters toggle
+    (function(){
+      const advWrap = document.getElementById('advanced-filters');
+      const btn = document.getElementById('toggle-advanced');
+      if (!advWrap || !btn) return;
+      const key = 'ui.advancedOpen';
+      let open = (localStorage.getItem(key) === '1');
+      function render(){ advWrap.classList.toggle('hidden', !open); btn.setAttribute('aria-expanded', open.toString()); }
+      btn.addEventListener('click', ()=>{ open = !open; localStorage.setItem(key, open ? '1' : '0'); render(); });
+      render();
+    })();
+
+    // Active filter chips
+    (function(){
+      const box = document.getElementById('chips');
+      const clearAll = document.getElementById('clear-all');
+      const searchInput = document.getElementById('global-search');
+      const m = {
+        country: chCountry,
+        level: chLevel,
+        language: chLang,
+        category: chCategory,
+        provider: chProvider,
+        funding_type: chFunding,
+        region: chRegion,
+        fields: chFields,
+      };
+      const labels = {
+        country: <?php echo json_encode($L['f_country']); ?>,
+        level: <?php echo json_encode($L['f_level']); ?>,
+        language: <?php echo json_encode($L['f_lang']); ?>,
+        category: <?php echo json_encode($L['f_category']); ?>,
+        provider: <?php echo json_encode($L['f_provider']); ?>,
+        funding_type: <?php echo json_encode($L['f_funding_type']); ?>,
+        region: <?php echo json_encode($L['f_region']); ?>,
+        fields: <?php echo json_encode($L['f_fields']); ?>,
+        date_start: <?php echo json_encode($L['f_deadline_start']); ?>,
+        date_end: <?php echo json_encode($L['f_deadline_end']); ?>,
+        search: <?php echo json_encode($L['search']); ?>,
+      };
+      function renderChips(){
+        if (!box) return;
+        box.innerHTML = '';
+        function addChip(type, value, display){
+          const chip = document.createElement('span');
+          chip.className = 'chip';
+          chip.innerHTML = `<strong>${labels[type] || type}:</strong> <span>${display || value}</span> <button class="chip-remove" type="button" aria-label="Remove">&times;</button>`;
+          chip.dataset.type = type; chip.dataset.value = value;
+          box.appendChild(chip);
+        }
+        // Choices selections
+        for (const [type, inst] of Object.entries(m)){
+          try{
+            const vals = inst.getValue(); // [{value,label}]
+            vals.forEach((v) => addChip(type, v.value, v.label || v.value));
+          }catch(e){}
+        }
+        // Dates
+        const ds = document.querySelector('#date-start')?.value?.trim();
+        const de = document.querySelector('#date-end')?.value?.trim();
+        if (ds) addChip('date_start', ds, ds);
+        if (de) addChip('date_end', de, de);
+        // Search
+        const sv = searchInput?.value?.trim();
+        if (sv) addChip('search', sv, sv);
+      }
+      function removeOne(type, value){
+        if (m[type]){
+          try { m[type].removeActiveItemsByValue(value); } catch(e){}
+        } else if (type === 'date_start'){
+          try { fpStart.clear(); } catch(e){}
+        } else if (type === 'date_end'){
+          try { fpEnd.clear(); } catch(e){}
+        } else if (type === 'search'){
+          if (searchInput){ searchInput.value=''; dt.search(''); }
+        }
+        applyFilters();
+        renderChips();
+      }
+      box?.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.chip-remove');
+        if (!btn) return;
+        const chip = e.target.closest('.chip');
+        if (!chip) return;
+        removeOne(chip.dataset.type, chip.dataset.value);
+      });
+      clearAll?.addEventListener('click', ()=>{ resetFilters(); if (searchInput){ searchInput.value=''; dt.search(''); } renderChips(); });
+      // Re-render on changes
+      const filterIds = ['#filter-country','#filter-level','#filter-language','#filter-category','#filter-provider','#filter-funding-type','#filter-region','#filter-fields','#date-start','#date-end','#global-search'];
+      filterIds.forEach(id=>{ const el = document.querySelector(id); if (el) el.addEventListener('change', renderChips); });
+      // Initial
+      renderChips();
+    })();
+
+    // A11y: global search with debounce
+    function debounce(fn, wait){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), wait); }; }
+    const searchInput = document.getElementById('global-search');
+    const clearBtn = document.getElementById('clear-search');
+    if (searchInput){
+      const doSearch = debounce((v)=>{ dt.search(v).draw(); }, 250);
+      searchInput.addEventListener('input', (e)=> doSearch(e.target.value));
+      clearBtn.addEventListener('click', ()=>{ searchInput.value=''; dt.search('').draw(); searchInput.focus(); });
+    }
+
+    // Custom pager with numbers
     const prevBtn = document.getElementById('prevPage');
     const nextBtn = document.getElementById('nextPage');
-    const pageIndicator = document.getElementById('pageIndicator');
+    const pagerNumbers = document.getElementById('pagerNumbers');
     const infoBox = document.getElementById('info');
 
-    function updatePager() {
+    function renderNumbers(info){
+      pagerNumbers.innerHTML = '';
+      const total = info.pages || 1;
+      const cur = info.page;
+      const start = Math.max(0, cur - 2);
+      const end = Math.min(total - 1, cur + 2);
+      function addBtn(i){
+        const b = document.createElement('button');
+        b.className = 'btn btn-outline page-btn';
+        b.textContent = (i+1).toString();
+        if (i === cur){ b.setAttribute('aria-current','page'); b.classList.add('active'); }
+        b.setAttribute('aria-label', 'Page ' + (i+1));
+        b.dataset.page = i;
+        pagerNumbers.appendChild(b);
+      }
+      if (start > 0){ addBtn(0); if (start > 1){ const span = document.createElement('span'); span.textContent = '…'; span.style.padding='0 .25rem'; pagerNumbers.appendChild(span);} }
+      for (let i=start; i<=end; i++){ addBtn(i); }
+      if (end < total - 1){ if (end < total - 2){ const span2 = document.createElement('span'); span2.textContent = '…'; span2.style.padding='0 .25rem'; pagerNumbers.appendChild(span2);} addBtn(total-1); }
+    }
+
+    function updatePager(){
       const info = dt.page.info();
-      pageIndicator.textContent = `${info.page + 1} / ${info.pages || 1}`;
       infoBox.textContent = `${info.recordsDisplay} résultats`;
       prevBtn.disabled = info.page <= 0;
       nextBtn.disabled = info.page >= info.pages - 1;
+      renderNumbers(info);
     }
 
     document.getElementById('page-size').addEventListener('change', () => {
-      dt.page.len(parseInt(document.getElementById('page-size').value, 10)).draw();
+      const v = document.getElementById('page-size').value;
+      localStorage.setItem('ui.pageSize', v);
+      dt.page.len(parseInt(v, 10)).draw();
       updatePager();
     });
-    prevBtn.addEventListener('click', () => { dt.page('previous').draw('page'); updatePager(); });
-    nextBtn.addEventListener('click', () => { dt.page('next').draw('page'); updatePager(); });
-    dt.on('draw', updatePager);
+    // Restore page size
+    (function(){
+      const saved = localStorage.getItem('ui.pageSize');
+      if (saved){
+        const sel = document.getElementById('page-size');
+        if (sel){ sel.value = saved; dt.page.len(parseInt(saved,10)).draw(); }
+      }
+    })();
+
+    // Keyboard navigation for pages (left/right arrows)
+    document.addEventListener('keydown', (e)=>{
+      if (document.querySelector('[x-data]')?.__x?.$data?.tab !== 'list') return;
+      if (e.key === 'ArrowLeft'){ if (!prevBtn.disabled){ prevBtn.click(); } }
+      if (e.key === 'ArrowRight'){ if (!nextBtn.disabled){ nextBtn.click(); } }
+    });
 
     function applyFilters() {
       if (serverSide) { dt.ajax.reload(updatePager, false); return; }

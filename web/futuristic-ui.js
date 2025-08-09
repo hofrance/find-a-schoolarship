@@ -43,4 +43,18 @@
   }
   sync();
   if (btnTheme) btnTheme.addEventListener('click', ()=>setTimeout(sync, 0));
+
+  // Back to top button behavior
+  const btn = document.getElementById('toTop');
+  if (!btn) return;
+  function onScroll(){
+    const y = window.scrollY || document.documentElement.scrollTop;
+    btn.classList.toggle('show', y > 320);
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+  btn.addEventListener('click', (e)=>{
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 })();
