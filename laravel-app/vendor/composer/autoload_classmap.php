@@ -6,9 +6,18 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\CleanDetectionsCsv' => $baseDir . '/app/Console/Commands/CleanDetectionsCsv.php',
+    'App\\Console\\Commands\\GitPullDaily' => $baseDir . '/app/Console/Commands/GitPullDaily.php',
     'App\\Console\\Commands\\ImportDetections' => $baseDir . '/app/Console/Commands/ImportDetections.php',
+    'App\\Console\\Commands\\ImportDetectionsDelta' => $baseDir . '/app/Console/Commands/ImportDetectionsDelta.php',
+    'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
+    'App\\Http\\Controllers\\ArticleController' => $baseDir . '/app/Http/Controllers/ArticleController.php',
+    'App\\Http\\Controllers\\CareerController' => $baseDir . '/app/Http/Controllers/CareerController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\DetectionController' => $baseDir . '/app/Http/Controllers/DetectionController.php',
+    'App\\Http\\Controllers\\DetectionsPageController' => $baseDir . '/app/Http/Controllers/DetectionsPageController.php',
+    'App\\Http\\Middleware\\SetLocale' => $baseDir . '/app/Http/Middleware/SetLocale.php',
+    'App\\Models\\Career' => $baseDir . '/app/Models/Career.php',
     'App\\Models\\Detection' => $baseDir . '/app/Models/Detection.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
@@ -130,6 +139,8 @@ return array(
     'Cron\\MinutesField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
     'Cron\\MonthField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
+    'Database\\Seeders\\ArticleSeeder' => $baseDir . '/database/seeders/ArticleSeeder.php',
+    'Database\\Seeders\\CareerSeeder' => $baseDir . '/database/seeders/CareerSeeder.php',
     'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'DateError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
     'DateException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateException.php',

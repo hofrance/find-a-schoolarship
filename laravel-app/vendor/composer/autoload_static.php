@@ -528,9 +528,18 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\CleanDetectionsCsv' => __DIR__ . '/../..' . '/app/Console/Commands/CleanDetectionsCsv.php',
+        'App\\Console\\Commands\\GitPullDaily' => __DIR__ . '/../..' . '/app/Console/Commands/GitPullDaily.php',
         'App\\Console\\Commands\\ImportDetections' => __DIR__ . '/../..' . '/app/Console/Commands/ImportDetections.php',
+        'App\\Console\\Commands\\ImportDetectionsDelta' => __DIR__ . '/../..' . '/app/Console/Commands/ImportDetectionsDelta.php',
+        'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Http\\Controllers\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleController.php',
+        'App\\Http\\Controllers\\CareerController' => __DIR__ . '/../..' . '/app/Http/Controllers/CareerController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DetectionController' => __DIR__ . '/../..' . '/app/Http/Controllers/DetectionController.php',
+        'App\\Http\\Controllers\\DetectionsPageController' => __DIR__ . '/../..' . '/app/Http/Controllers/DetectionsPageController.php',
+        'App\\Http\\Middleware\\SetLocale' => __DIR__ . '/../..' . '/app/Http/Middleware/SetLocale.php',
+        'App\\Models\\Career' => __DIR__ . '/../..' . '/app/Models/Career.php',
         'App\\Models\\Detection' => __DIR__ . '/../..' . '/app/Models/Detection.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -652,6 +661,8 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\ArticleSeeder' => __DIR__ . '/../..' . '/database/seeders/ArticleSeeder.php',
+        'Database\\Seeders\\CareerSeeder' => __DIR__ . '/../..' . '/database/seeders/CareerSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',

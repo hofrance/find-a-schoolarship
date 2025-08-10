@@ -1,44 +1,104 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_','-',app()->getLocale()) }}" class="theme-cyan">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Bourses')</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
-        a { text-decoration: none; }
-        .muted { color: #6c757d; }
-        .truncate { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <title>{{ isset($title) ? $title . ' - ' . config('app.name') : config('app.name') }}</title>
+    
+    @vite(['resources/css/futuristic.css', 'resources/js/app.js'])
     @stack('head')
 </head>
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url('/') }}">Bourses</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link {{ request()->routeIs('detections.index') ? 'active' : '' }}" href="{{ route('detections.index') }}">Opportunités</a></li>
-        {{-- Placeholders for future pages --}}
-        {{-- <li class="nav-item"><a class="nav-link" href="#">Universités</a></li> --}}
-      </ul>
-      @yield('navbar-search')
-    </div>
-  </div>
-</nav>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="{{ route('detections.index') }}" class="brand">
+                    🌐 {{ config('app.name') }}
+                </a>
+                
+                <div class="nav-links">
+                    <a href="{{ route('detections.index') }}" class="{{ request()->routeIs('detections.*') ? 'active' : '' }}">
+                        {{ __('navigation.scholarships') }}
+                    </a>
+                    <a href="{{ route('articles.index') }}" class="{{ request()->routeIs('articles.*') ? 'active' : '' }}">
+                        {{ __('navigation.orientation') }}
+                    </a>
+                    <a href="{{ route('careers.index') }}" class="{{ request()->routeIs('careers.*') ? 'active' : '' }}">
+                        {{ __('navigation.careers') }}
+                    </a>
+                </div>
+                
+                <div class="actions">
+                    <div class="lang-switcher">
+                        <a href="{{ url()->current() }}?lang=fr" class="{{ app()->getLocale() == 'fr' ? 'active' : '' }}">FR</a>
+                        <a href="{{ url()->current() }}?lang=en" class="{{ app()->getLocale() == 'en' ? 'active' : '' }}">EN</a>
+                    </div>
+                    <button class="btn btn-primary" onclick="window.FUI?.toggleTheme()">
+                        🎨 Thème
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-<main class="container py-4">
-  @yield('content')
-</main>
+    <main class="container" style="padding-top:20px;">
+        @yield('content')
+    </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-@stack('scripts')
+    <footer style="margin-top: 4rem; padding: 2rem 0; border-top: 1px solid var(--stroke);">
+        <div class="container">
+            <div class="grid grid-4">
+                <div>
+                    <h5 style="margin-bottom: 1rem; color: var(--text);">{{ config('app.name') }}</h5>
+                    <p style="color: var(--muted);">Plateforme d'aide à l'orientation et aux bourses d'études.</p>
+                </div>
+                <div>
+                    <h6 style="margin-bottom: 1rem; color: var(--text);">Navigation</h6>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="{{ route('detections.index') }}" style="color: var(--muted);">{{ __('navigation.scholarships') }}</a>
+                        <a href="{{ route('articles.index') }}" style="color: var(--muted);">{{ __('navigation.orientation') }}</a>
+                        <a href="{{ route('careers.index') }}" style="color: var(--muted);">{{ __('navigation.careers') }}</a>
+                    </div>
+                </div>
+                <div>
+                    <h6 style="margin-bottom: 1rem; color: var(--text);">Catégories</h6>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <a href="{{ route('articles.category', 'orientation') }}" style="color: var(--muted);">Orientation</a>
+                        <a href="{{ route('articles.category', 'etudes') }}" style="color: var(--muted);">Études</a>
+                        <a href="{{ route('articles.category', 'conseils') }}" style="color: var(--muted);">Conseils</a>
+                    </div>
+                </div>
+                <div>
+                    <h6 style="margin-bottom: 1rem; color: var(--text);">{{ __('navigation.contact') }}</h6>
+                    <p style="color: var(--muted); margin: 0;">contact@bourses.com</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--stroke); color: var(--muted);">
+                <p style="margin: 0;">&copy; {{ date('Y') }} {{ config('app.name') }}. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    @if(session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                window.FUI?.toast('{{ session('success') }}', 'success');
+            });
+        </script>
+    @endif
+
+    @if(session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                window.FUI?.toast('{{ session('error') }}', 'error');
+            });
+        </script>
+    @endif
+
+    <div id="toast-root" aria-live="polite" aria-atomic="true" style="position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 10px; z-index: 200;"></div>
+    
+    @stack('scripts')
 </body>
 </html>
