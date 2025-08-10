@@ -10,6 +10,12 @@
 # Keep the Laravel app
 !/laravel-app/
 
+# Keep the data folder itself, but ignore everything inside by default
+!/data/
+/data/*
+# Re-include only the detections CSV
+!/data/detections.csv
+
 # Python/venv and build artifacts (kept ignored even if under laravel-app/ has its own .gitignore)
 __pycache__/
 *.py[cod]
@@ -19,8 +25,7 @@ __pycache__/
 .env
 .env.*
 
-# Data, logs and notebooks (backend/pipeline not part of VCS)
-/data/
+# Logs and notebooks
 logs/
 *.log
 .ipynb_checkpoints/
