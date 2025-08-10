@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class ImportDetections extends Command
 {
-    protected $signature = 'detections:import {csv=../web/detections.csv} {--truncate}';
+    protected $signature = 'detections:import {csv=../data/detections.csv} {--truncate}';
     protected $description = 'Import detections from CSV into SQLite (upsert by item_url)';
 
     public function handle(): int
