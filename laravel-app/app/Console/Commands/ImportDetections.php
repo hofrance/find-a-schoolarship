@@ -8,6 +8,7 @@ use League\Csv\Reader;
 use League\Csv\Statement;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ImportDetections extends Command
 {
@@ -26,21 +27,65 @@ class ImportDetections extends Command
             Detection::truncate();
         }
 
-        $csv = Reader::createFromPath($csvPath, 'r');
+        try {
+            $csv = Reader::createFromPath($csvPath, 'r');
+        } catch (\Throwable $e) {
+            $this->error('Cannot open CSV: '.$e->getMessage());
+            return 1;
+        }
         $csv->setHeaderOffset(0);
+
         $stmt = Statement::create();
-        $records = $stmt->process($csv);
+        try {
+            $records = $stmt->process($csv);
+        } catch (\Throwable $e) {
+            $this->error('CSV parse error: '.$e->getMessage());
+            return 1;
+        }
 
         $chunk = [];
+        $chunkMap = []; // line index map for error reporting
         $chunkSize = 1000;
         $now = Carbon::now();
-        $total = 0; $batches = 0;
+        $total = 0; $batches = 0; $skipped = 0; $rowIdx = 1; // header at 0
 
-        $push = function(array $row) use (&$chunk, $chunkSize, $now, &$total, &$batches) {
+        $flushChunk = function() use (&$chunk, &$chunkMap, &$batches, &$skipped) {
+            if (empty($chunk)) { return; }
+            try {
+                Detection::upsert(
+                    $chunk,
+                    ['item_url'],
+                    ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']
+                );
+                $batches++;
+            } catch (\Throwable $e) {
+                // Fallback per‑row to continue on error, and log the offending line
+                foreach ($chunk as $i => $row) {
+                    try {
+                        Detection::upsert([
+                            $row
+                        ], ['item_url'], ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']);
+                    } catch (\Throwable $inner) {
+                        $line = $chunkMap[$i] ?? 'unknown';
+                        $msg = "Skip line $line: ".$inner->getMessage();
+                        Log::warning('[detections:import] '.$msg);
+                        // Show concise output too
+                        $this->warn($msg);
+                        $skipped++;
+                    }
+                }
+                $batches++;
+            }
+            $chunk = []; $chunkMap = [];
+        };
+
+        $push = function(array $row, int $line) use (&$chunk, &$chunkMap, $chunkSize, $now, &$total, &$flushChunk, &$skipped) {
             $get = fn($k) => isset($row[$k]) && $row[$k] !== '' ? trim((string)$row[$k]) : null;
             $url = $get('item_url');
             $title = $get('title');
-            if (!$url || !$title) { return; }
+            if (!$url || !$title) {
+                $skipped++; return; // skip invalid
+            }
             $attrs = [
                 'item_url'    => Str::limit($url, 2048, ''),
                 'title'       => Str::limit($title, 1024, ''),
@@ -65,32 +110,24 @@ class ImportDetections extends Command
                 'created_at'  => $now,
                 'updated_at'  => $now,
             ];
-            $chunk[] = $attrs; $total++;
-            if (count($chunk) >= $chunkSize) {
-                Detection::upsert(
-                    $chunk,
-                    ['item_url'],
-                    ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']
-                );
-                $chunk = []; $batches++;
-            }
+            $chunk[] = $attrs; $chunkMap[] = $line; $total++;
+            if (count($chunk) >= $chunkSize) { $flushChunk(); }
         };
 
-        foreach ($records as $r) {
+        foreach ($records as $idx => $r) {
             $row = [];
             foreach ($r as $k => $v) { $row[$k] = is_string($v) ? trim($v) : $v; }
-            $push($row);
+            $rowIdx = $idx + 1; // considering header offset
+            try {
+                $push($row, $rowIdx);
+            } catch (\Throwable $e) {
+                $this->warn('Skip line '.$rowIdx.': '.$e->getMessage());
+                $skipped++;
+            }
         }
-        if (!empty($chunk)) {
-            Detection::upsert(
-                $chunk,
-                ['item_url'],
-                ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']
-            );
-            $batches++;
-        }
+        $flushChunk();
 
-        $this->info("Upserted $total rows in $batches batch(es) from $csvPath");
+        $this->info("Upserted $total rows in $batches batch(es) from $csvPath; skipped $skipped invalid row(s)");
         return 0;
     }
 }

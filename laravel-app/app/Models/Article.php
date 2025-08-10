@@ -32,13 +32,21 @@ class Article extends Model
         'views_count' => 'integer'
     ];
 
-    // Auto-génération du slug
+    // Auto-génération du slug (uniquement si absent)
     protected static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($article) {
-            $article->slug = Str::slug($article->title);
+            if (empty($article->slug)) {
+                $article->slug = Str::slug($article->title ?? '');
+            }
+        });
+
+        static::updating(function ($article) {
+            if (empty($article->slug) && !empty($article->title)) {
+                $article->slug = Str::slug($article->title);
+            }
         });
     }
 

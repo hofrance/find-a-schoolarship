@@ -64,22 +64,28 @@ class ImportContentCommand extends Command
      */
     protected function importArticles(string $dir, bool $dryRun): array
     {
-        if (!File::exists($dir)) { File::makeDirectory($dir, 0755, true); }
+        if (!File::
+            exists($dir)) { File::makeDirectory($dir, 0755, true); }
         $files = collect(File::files($dir))->filter(fn($f) => Str::endsWith($f->getFilename(), '.json'));
         $created = 0; $updated = 0; $errors = 0;
 
         foreach ($files as $file) {
             try {
-                $data = json_decode(File::get($file->getRealPath()), true, 512, JSON_THROW_ON_ERROR);
-                $items = $this->normalizeItems($data);
+                $items = $this->decodeJsonFile($file->getRealPath());
                 foreach ($items as $item) {
-                    $payload = $this->mapArticle($item);
-                    if (!$payload) { $errors++; continue; }
-
-                    [$wasCreated, $wasUpdated] = $this->upsertArticle($payload, $dryRun);
-                    $created += $wasCreated; $updated += $wasUpdated;
+                    try {
+                        $payload = $this->mapArticle($item);
+                        if (!$payload) { $errors++; continue; }
+                        [$wasCreated, $wasUpdated] = $this->upsertArticle($payload, $dryRun);
+                        $created += $wasCreated; $updated += $wasUpdated;
+                    } catch (\Throwable $e) {
+                        $errors++;
+                        $slug = (string)($item['slug'] ?? ($item['title'] ?? 'inconnu'));
+                        $this->error("✗ Article: {$slug} — ".$e->getMessage());
+                        // Continuer malgré l'erreur
+                    }
                 }
-                $this->info("✓ Articles: {$file->getFilename()} ({".count($items)." items)");
+                $this->info("✓ Articles: {$file->getFilename()} (".count($items)." items)");
             } catch (\Throwable $e) {
                 $errors++; $this->error("✗ Articles: {$file->getFilename()} — ".$e->getMessage());
             }
@@ -98,16 +104,20 @@ class ImportContentCommand extends Command
 
         foreach ($files as $file) {
             try {
-                $data = json_decode(File::get($file->getRealPath()), true, 512, JSON_THROW_ON_ERROR);
-                $items = $this->normalizeItems($data);
+                $items = $this->decodeJsonFile($file->getRealPath());
                 foreach ($items as $item) {
-                    $payload = $this->mapCareer($item);
-                    if (!$payload) { $errors++; continue; }
-
-                    [$wasCreated, $wasUpdated] = $this->upsertCareer($payload, $dryRun);
-                    $created += $wasCreated; $updated += $wasUpdated;
+                    try {
+                        $payload = $this->mapCareer($item);
+                        if (!$payload) { $errors++; continue; }
+                        [$wasCreated, $wasUpdated] = $this->upsertCareer($payload, $dryRun);
+                        $created += $wasCreated; $updated += $wasUpdated;
+                    } catch (\Throwable $e) {
+                        $errors++;
+                        $slug = (string)($item['slug'] ?? ($item['title'] ?? 'inconnu'));
+                        $this->error("✗ Métier: {$slug} — ".$e->getMessage());
+                    }
                 }
-                $this->info("✓ Métiers: {$file->getFilename()} ({".count($items)." items)");
+                $this->info("✓ Métiers: {$file->getFilename()} (".count($items)." items)");
             } catch (\Throwable $e) {
                 $errors++; $this->error("✗ Métiers: {$file->getFilename()} — ".$e->getMessage());
             }
@@ -200,15 +210,23 @@ class ImportContentCommand extends Command
     {
         $now = now();
         if ($dryRun) { $this->line('· [dry] Article: '.$payload['slug']); return [0, 0]; }
-        $existing = Article::where('slug', $payload['slug'])->first();
-        if ($existing) {
-            $existing->fill($payload);
-            $existing->updated_at = $now;
-            $existing->save();
-            return [0, 1];
+        // Utilise updateOrCreate pour éviter les doublons de slug
+        try {
+            $model = Article::updateOrCreate(['slug' => $payload['slug']], $payload + ['updated_at' => $now]);
+            $wasCreated = $model->wasRecentlyCreated ? 1 : 0;
+            $wasUpdated = $model->wasRecentlyCreated ? 0 : 1;
+            return [$wasCreated, $wasUpdated];
+        } catch (\Throwable $e) {
+            // Fallback intelligent: tenter une mise à jour directe si contrainte d'unicité
+            $existing = Article::where('slug', $payload['slug'])->first();
+            if ($existing) {
+                $existing->fill($payload);
+                $existing->updated_at = $now;
+                $existing->save();
+                return [0, 1];
+            }
+            throw $e;
         }
-        Article::create($payload + ['created_at' => $now, 'updated_at' => $now]);
-        return [1, 0];
     }
 
     /**
@@ -218,14 +236,113 @@ class ImportContentCommand extends Command
     {
         $now = now();
         if ($dryRun) { $this->line('· [dry] Métier: '.$payload['slug']); return [0, 0]; }
-        $existing = Career::where('slug', $payload['slug'])->first();
-        if ($existing) {
-            $existing->fill($payload);
-            $existing->updated_at = $now;
-            $existing->save();
-            return [0, 1];
+        try {
+            $model = Career::updateOrCreate(['slug' => $payload['slug']], $payload + ['updated_at' => $now]);
+            $wasCreated = $model->wasRecentlyCreated ? 1 : 0;
+            $wasUpdated = $model->wasRecentlyCreated ? 0 : 1;
+            return [$wasCreated, $wasUpdated];
+        } catch (\Throwable $e) {
+            $existing = Career::where('slug', $payload['slug'])->first();
+            if ($existing) {
+                $existing->fill($payload);
+                $existing->updated_at = $now;
+                $existing->save();
+                return [0, 1];
+            }
+            throw $e;
         }
-        Career::create($payload + ['created_at' => $now, 'updated_at' => $now]);
-        return [1, 0];
+    }
+
+    // --- Helpers JSON résilients ---
+    /**
+     * Décoder un fichier JSON avec nettoyage et fallback: si le tableau complet échoue,
+     * on découpe les objets au niveau supérieur et on en récupère le maximum valide.
+     * @return array<int, mixed>
+     */
+    protected function decodeJsonFile(string $path): array
+    {
+        $raw = File::get($path);
+        // Tentative stricte
+        try {
+            $data = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
+            return $this->normalizeItems($data);
+        } catch (\Throwable) {}
+
+        // Nettoyage basique
+        $clean = $this->cleanJson($raw);
+        $data = json_decode($clean, true);
+        if (is_array($data)) {
+            return $this->normalizeItems($data);
+        }
+
+        // Fallback: split top-level objects in array and decode piece-by-piece
+        $trim = ltrim($clean);
+        if (str_starts_with($trim, '[')) {
+            $itemsSrc = $this->splitJsonArrayItems($trim);
+            $items = [];
+            $bad = 0;
+            foreach ($itemsSrc as $piece) {
+                $obj = json_decode($piece, true);
+                if (is_array($obj)) {
+                    $items[] = $obj;
+                } else {
+                    $bad++;
+                }
+            }
+            if (!empty($items)) { return $items; }
+        }
+
+        $msg = function_exists('json_last_error_msg') ? json_last_error_msg() : 'Syntax error';
+        throw new \RuntimeException('Syntax error: '.$msg);
+    }
+
+    /**
+     * Supprime commentaires de type // et /* block *\/ ainsi que les virgules traînantes.
+     */
+    protected function cleanJson(string $json): string
+    {
+        // Retirer BOM
+        $json = preg_replace('/^\xEF\xBB\xBF/', '', $json) ?? $json;
+        // Retirer commentaires /* ... */ et // ...
+        $json = preg_replace('#/\*.*?\*/#s', '', $json) ?? $json;
+        $json = preg_replace('#//.*$#m', '', $json) ?? $json;
+        // Retirer virgules traînantes dans objets/arrays
+        $json = preg_replace('/,\s*([}\]])/', '$1', $json) ?? $json;
+        return $json;
+    }
+
+    /**
+     * Découpe les objets JSON au niveau supérieur d’un tableau JSON.
+     * Exemple: [ {..}, {..}, {..} ] -> renvoie ["{..}","{..}","{..}"]
+     * Gère les chaînes et l’échappement basique.
+     * @return array<int,string>
+     */
+    protected function splitJsonArrayItems(string $jsonArray): array
+    {
+        $items = [];
+        $len = strlen($jsonArray);
+        $i = 0;
+        // Chercher première [
+        while ($i < $len && $jsonArray[$i] !== '[') { $i++; }
+        if ($i >= $len) { return $items; }
+        $i++; // après [
+        $braceDepth = 0; $inString = false; $escape = false; $buf = '';
+        for (; $i < $len; $i++) {
+            $ch = $jsonArray[$i] ?? '';
+            if ($inString) {
+                $buf .= $ch;
+                if ($escape) { $escape = false; continue; }
+                if ($ch === '\\') { $escape = true; continue; }
+                if ($ch === '"') { $inString = false; }
+                continue;
+            }
+            if ($ch === '"') { $inString = true; $buf .= $ch; continue; }
+            if ($ch === '{') { $braceDepth++; $buf .= $ch; continue; }
+            if ($ch === '}') { $braceDepth--; $buf .= $ch; if ($braceDepth === 0) { $items[] = trim($buf); $buf = ''; } continue; }
+            if ($braceDepth > 0) { $buf .= $ch; continue; }
+            // à depth 0 à l’intérieur du tableau: ignorer espaces/virgules jusqu’à ]
+            if ($ch === ']') { break; }
+        }
+        return $items;
     }
 }

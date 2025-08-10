@@ -33,13 +33,21 @@ class Career extends Model
         'views_count' => 'integer'
     ];
 
-    // Auto-génération du slug
+    // Auto-génération du slug (uniquement si absent)
     protected static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($career) {
-            $career->slug = Str::slug($career->title);
+            if (empty($career->slug)) {
+                $career->slug = Str::slug($career->title ?? '');
+            }
+        });
+
+        static::updating(function ($career) {
+            if (empty($career->slug) && !empty($career->title)) {
+                $career->slug = Str::slug($career->title);
+            }
         });
     }
 

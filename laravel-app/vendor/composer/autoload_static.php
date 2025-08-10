@@ -530,6 +530,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
     public static $classMap = array (
         'App\\Console\\Commands\\CleanDetectionsCsv' => __DIR__ . '/../..' . '/app/Console/Commands/CleanDetectionsCsv.php',
         'App\\Console\\Commands\\GitPullDaily' => __DIR__ . '/../..' . '/app/Console/Commands/GitPullDaily.php',
+        'App\\Console\\Commands\\ImportContentCommand' => __DIR__ . '/../..' . '/app/Console/Commands/ImportContentCommand.php',
         'App\\Console\\Commands\\ImportDetections' => __DIR__ . '/../..' . '/app/Console/Commands/ImportDetections.php',
         'App\\Console\\Commands\\ImportDetectionsDelta' => __DIR__ . '/../..' . '/app/Console/Commands/ImportDetectionsDelta.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
@@ -664,6 +665,7 @@ class ComposerStaticInit88970a0117c062eed55fa8728fc43833
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\ArticleSeeder' => __DIR__ . '/../..' . '/database/seeders/ArticleSeeder.php',
         'Database\\Seeders\\CareerSeeder' => __DIR__ . '/../..' . '/database/seeders/CareerSeeder.php',
+        'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',

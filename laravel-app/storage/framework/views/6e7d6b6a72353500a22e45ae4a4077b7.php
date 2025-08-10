@@ -32,6 +32,10 @@
                         <?php echo e(__('navigation.careers')); ?>
 
                     </a>
+                    <a href="<?php echo e(route('about')); ?>" class="<?php echo e(request()->routeIs('about') ? 'active' : ''); ?>">
+                        <?php echo e(__('navigation.about')); ?>
+
+                    </a>
                 </div>
                 
                 <div class="actions">
@@ -40,7 +44,8 @@
                         <a href="<?php echo e(url()->current()); ?>?lang=en" class="<?php echo e(app()->getLocale() == 'en' ? 'active' : ''); ?>">EN</a>
                     </div>
                     <button class="btn btn-primary" onclick="window.FUI?.toggleTheme()">
-                        🎨 Thème
+                        🎨 <?php echo e(__('navigation.theme')); ?>
+
                     </button>
                 </div>
             </div>

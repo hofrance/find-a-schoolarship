@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Console\\Commands\\CleanDetectionsCsv' => $baseDir . '/app/Console/Commands/CleanDetectionsCsv.php',
     'App\\Console\\Commands\\GitPullDaily' => $baseDir . '/app/Console/Commands/GitPullDaily.php',
+    'App\\Console\\Commands\\ImportContentCommand' => $baseDir . '/app/Console/Commands/ImportContentCommand.php',
     'App\\Console\\Commands\\ImportDetections' => $baseDir . '/app/Console/Commands/ImportDetections.php',
     'App\\Console\\Commands\\ImportDetectionsDelta' => $baseDir . '/app/Console/Commands/ImportDetectionsDelta.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
@@ -142,6 +143,7 @@ return array(
     'Database\\Factories\\UserFactory' => $baseDir . '/database/factories/UserFactory.php',
     'Database\\Seeders\\ArticleSeeder' => $baseDir . '/database/seeders/ArticleSeeder.php',
     'Database\\Seeders\\CareerSeeder' => $baseDir . '/database/seeders/CareerSeeder.php',
+    'Database\\Seeders\\DatabaseSeeder' => $baseDir . '/database/seeders/DatabaseSeeder.php',
     'DateError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
     'DateException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
     'DateInvalidOperationException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
