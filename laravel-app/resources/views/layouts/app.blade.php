@@ -28,6 +28,9 @@
                     <a href="{{ route('careers.index') }}" class="{{ request()->routeIs('careers.*') ? 'active' : '' }}">
                         {{ __('navigation.careers') }}
                     </a>
+                    <a href="{{ route('about') }}" class="{{ request()->routeIs('about') ? 'active' : '' }}">
+                        {{ __('navigation.about') }}
+                    </a>
                 </div>
                 
                 <div class="actions">
@@ -36,7 +39,7 @@
                         <a href="{{ url()->current() }}?lang=en" class="{{ app()->getLocale() == 'en' ? 'active' : '' }}">EN</a>
                     </div>
                     <button class="btn btn-primary" onclick="window.FUI?.toggleTheme()">
-                        🎨 Thème
+                        🎨 {{ __('navigation.theme') }}
                     </button>
                 </div>
             </div>

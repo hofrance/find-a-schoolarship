@@ -22,3 +22,7 @@ Route::prefix('metiers')->name('careers.')->group(function () {
     Route::get('/secteur/{sector}', [CareerController::class, 'sector'])->name('sector');
     Route::get('/{slug}', [CareerController::class, 'show'])->name('show');
 });
+
+// À propos / About (vue simple)
+Route::view('/about', 'about')->name('about');
+Route::view('/a-propos', 'about');

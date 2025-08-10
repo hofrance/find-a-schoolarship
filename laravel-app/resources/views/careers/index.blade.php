@@ -108,7 +108,7 @@
                         <span class="badge badge-career">⭐ En vedette</span>
                     @endif
                     @if($career->sectors)
-                        @foreach($career->sectors->take(2) as $sector)
+                        @foreach(array_slice($career->sectors, 0, 2) as $sector)
                             <span class="badge">{{ $sector }}</span>
                         @endforeach
                     @endif

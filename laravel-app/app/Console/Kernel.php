@@ -16,6 +16,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('repo:pull')->dailyAt('06:00')->withoutOverlapping();
         // Import new/updated rows after pull at 06:10 UTC
         $schedule->command('detections:import-delta')->dailyAt('06:10')->withoutOverlapping();
+        // Import content JSON at 06:20 UTC (si des fichiers existent)
+        $schedule->command('content:import')->dailyAt('06:20')->withoutOverlapping();
     }
 
     /**
