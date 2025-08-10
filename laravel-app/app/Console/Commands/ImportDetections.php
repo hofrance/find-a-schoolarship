@@ -7,6 +7,7 @@ use App\Models\Detection;
 use League\Csv\Reader;
 use League\Csv\Statement;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class ImportDetections extends Command
 {
@@ -30,41 +31,66 @@ class ImportDetections extends Command
         $stmt = Statement::create();
         $records = $stmt->process($csv);
 
-        $count = 0;
-        foreach ($records as $r) {
-            $row = array_map(fn($v) => is_string($v) ? trim($v) : $v, $r);
-            if (empty($row['item_url']) || empty($row['title'])) {
-                continue;
+        $chunk = [];
+        $chunkSize = 1000;
+        $now = Carbon::now();
+        $total = 0; $batches = 0;
+
+        $push = function(array $row) use (&$chunk, $chunkSize, $now, &$total, &$batches) {
+            $get = fn($k) => isset($row[$k]) && $row[$k] !== '' ? trim((string)$row[$k]) : null;
+            $url = $get('item_url');
+            $title = $get('title');
+            if (!$url || !$title) { return; }
+            $attrs = [
+                'item_url'    => Str::limit($url, 2048, ''),
+                'title'       => Str::limit($title, 1024, ''),
+                'source_name' => $get('source_name') ? Str::limit($get('source_name'), 255, '') : null,
+                'country'     => $get('country') ? Str::limit($get('country'), 128, '') : null,
+                'level'       => $get('level') ? Str::limit($get('level'), 128, '') : null,
+                'language'    => $get('language') ? Str::limit($get('language'), 64, '') : null,
+                'score'       => (int)($get('score') ?? 0),
+                'deadline'    => $get('deadline') ?: null,
+                'amount'      => $get('amount') ? Str::limit($get('amount'), 128, '') : null,
+                'first_seen'  => $get('first_seen') ?: null,
+                'last_seen'   => $get('last_seen') ?: null,
+                'source_id'   => $get('source_id') ? Str::limit($get('source_id'), 128, '') : null,
+                'provider'    => $get('provider') ? Str::limit($get('provider'), 255, '') : null,
+                'category'    => $get('category') ? Str::limit($get('category'), 128, '') : null,
+                'funding_type'=> $get('funding_type') ? Str::limit($get('funding_type'), 128, '') : null,
+                'region'      => $get('region') ? Str::limit($get('region'), 128, '') : null,
+                'fields'      => $get('fields') ? Str::limit($get('fields'), 255, '') : null,
+                'tags'        => $get('tags') ? Str::limit($get('tags'), 255, '') : null,
+                'source_url'  => $get('source_url') ? Str::limit($get('source_url'), 2048, '') : null,
+                'summary'     => $get('summary') ?? null,
+                'created_at'  => $now,
+                'updated_at'  => $now,
+            ];
+            $chunk[] = $attrs; $total++;
+            if (count($chunk) >= $chunkSize) {
+                Detection::upsert(
+                    $chunk,
+                    ['item_url'],
+                    ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']
+                );
+                $chunk = []; $batches++;
             }
-            // Upsert by item_url
-            Detection::updateOrCreate(
-                ['item_url' => Str::limit($row['item_url'], 2048, '')],
-                [
-                    'source_name' => $row['source_name'] ?? null,
-                    'title' => Str::limit($row['title'] ?? '', 1024, ''),
-                    'country' => $row['country'] ?? null,
-                    'level' => $row['level'] ?? null,
-                    'language' => $row['language'] ?? null,
-                    'score' => (int)($row['score'] ?? 0),
-                    'deadline' => $row['deadline'] ?: null,
-                    'amount' => $row['amount'] ?? null,
-                    'first_seen' => $row['first_seen'] ?: null,
-                    'last_seen' => $row['last_seen'] ?: null,
-                    'source_id' => $row['source_id'] ?? null,
-                    'provider' => $row['provider'] ?? null,
-                    'category' => $row['category'] ?? null,
-                    'funding_type' => $row['funding_type'] ?? null,
-                    'region' => $row['region'] ?? null,
-                    'fields' => $row['fields'] ?? null,
-                    'tags' => $row['tags'] ?? null,
-                    'source_url' => $row['source_url'] ?? null,
-                    'summary' => $row['summary'] ?? null,
-                ]
+        };
+
+        foreach ($records as $r) {
+            $row = [];
+            foreach ($r as $k => $v) { $row[$k] = is_string($v) ? trim($v) : $v; }
+            $push($row);
+        }
+        if (!empty($chunk)) {
+            Detection::upsert(
+                $chunk,
+                ['item_url'],
+                ['title','source_name','country','level','language','score','deadline','amount','first_seen','last_seen','source_id','provider','category','funding_type','region','fields','tags','source_url','summary','updated_at']
             );
-            $count++;
+            $batches++;
         }
 
-        $this->info("Imported/updated $count rows from $csvPath");
+        $this->info("Upserted $total rows in $batches batch(es) from $csvPath");
         return 0;
     }
 }
