@@ -12,7 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Daily pull at 06:00 UTC
+        $schedule->command('repo:pull')->dailyAt('06:00')->withoutOverlapping();
+        // Import new/updated rows after pull at 06:10 UTC
+        $schedule->command('detections:import-delta')->dailyAt('06:10')->withoutOverlapping();
     }
 
     /**

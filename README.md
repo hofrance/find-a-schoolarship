@@ -1,31 +1,26 @@
-# Scholarships Monitor (Web)
+# Scholarships Monitor (Laravel)
 
-This repository publishes only the `web/` site (PHP frontend + assets). The discovery/detection pipeline and data are excluded from version control.
+This repository now serves a Laravel app backed by SQLite. The Python pipeline writes `data/detections.csv`, and Laravel imports it into the `detections` table.
 
 ## Included
-- `web/` PHP app
-- Security headers in `index.php`
-- `futuristic-style.css` theme
-- `api.php` for server-side DataTables
+- `laravel-app/` full Laravel project
+- Console command `detections:import` to load CSV into SQLite
+- Blade UI for server-rendered pages (no API required)
 
-## Excluded (via .gitignore)
+## Data and pipeline (excluded)
 - `data/` (sources, detections, cron files, logs)
 - Python scripts and virtualenvs
-- Local caches, logs, IDE files
 
-## Deploy locally
-- Requires PHP 8+
-- Serve `web/` (e.g., `php -S 127.0.0.1:8000 -t web`)
+## Local development
+- Requirements: PHP 8.2+, Composer
+- Create the SQLite file at `laravel-app/database/database.sqlite` and configure `.env` for SQLite
+- Migrate and import data:
+  - `php artisan migrate --ansi`
+  - `php artisan detections:import ../data/detections.csv --truncate`
+- Serve the app:
+  - `php artisan serve`
 
-## Deploy to Hostinger (public_html)
-Upload only what’s inside `web/` into `public_html/`:
-- `index.php`, `api.php`
-- `futuristic-style.css`, `futuristic-ui.js`
-- `detections.csv` (place it next to `index.php`)
-
-Steps:
-1. Generate the latest `web/detections.csv` locally (pipeline writes here).
-2. Open Hostinger File Manager or FTP and upload all files from `web/` to `public_html/`.
-3. Ensure `index.php` and `api.php` sit directly under `public_html/`.
-4. Test your domain. If CSP blocks CDNs, relax or remove the CSP header in `index.php`.
+## Notes
+- The pipeline should produce/clean `data/detections.csv` (no longer using `web/`).
+- You can schedule periodic imports via cron or Laravel scheduler.
 
