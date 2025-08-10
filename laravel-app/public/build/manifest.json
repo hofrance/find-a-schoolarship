@@ -1,0 +1,24 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-DGNqLr9r.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/futuristic.css": {
+    "file": "assets/futuristic-MfL2p6fJ.css",
+    "src": "resources/css/futuristic.css",
+    "isEntry": true,
+    "names": [
+      "futuristic.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-DWst_Ust.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
